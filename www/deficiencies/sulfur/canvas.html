@@ -1,0 +1,120 @@
+<html>
+<body>
+<div>
+  <img src="sample.png" width="300" height="300">
+</div>
+<h1>Palette</h1>
+
+<div id="colors"></div>
+<h1>Chroma</h1>
+
+<div id="scale"></div>
+<script src="../../js/vendor/chroma/chroma.min.js"></script>
+<script src="../../js/vendor/color-thief/color-thief.min.js"></script>
+<script>
+  var img = new Image();
+  img.src = "sample.png";
+
+  var colorThief = new ColorThief();
+  var palettes = colorThief.getPalette(img, 128);
+
+
+  var RGB = function () {
+
+    this.setR = function (r) {
+      this.r = r;
+    };
+
+    this.setG = function (g) {
+      this.g = g;
+    };
+
+    this.setB = function (b) {
+      this.b = b;
+    };
+
+  };
+
+  RGB.prototype.equals = function (RGB) {
+    return this.r === RGB.r & this.g === RGB.g & this.b === RGB.b;
+  };
+  RGB.prototype.valueOf = function () {
+    return this.r + this.g + this.b;
+  };
+  RGB.prototype.toString = function () {
+    return this.r + this.g + this.b;
+  };
+
+
+  var rgbs = new Array();
+
+  rgbs.contains = function (RGB) {
+    for (var i in this) {
+      var rgb = this[i];
+      if (rgb.valueOf() === RGB.valueOf()) return true;
+    }
+    return false;
+  };
+
+  for (var pal in palettes) {
+    var palette = palettes[pal];
+    console.debug("palette", palette);
+    var rgb = new RGB();
+    rgb.setR(palette[0]);
+    rgb.setG(palette[1]);
+    rgb.setB(palette[2]);
+    console.debug("rgb", rgb);
+    if (!rgbs.contains(rgb)) {
+      rgbs.push(rgb);
+    }
+
+  }
+  function componentToHex(c) {
+    var hex = c.toString(16);
+    return hex.length == 1 ? "0" + hex : hex;
+  }
+
+  function rgbToHex(RGB) {
+    return "#" + componentToHex(RGB.r) + componentToHex(RGB.g) + componentToHex(RGB.b);
+  }
+
+  function hexToRgb(hex) {
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+      r: parseInt(result[1], 16),
+      g: parseInt(result[2], 16),
+      b: parseInt(result[3], 16)
+    } : null;
+  }
+
+  console.debug("palettes", rgbs.length);
+
+  var body = document.getElementById("colors");
+
+  var hexes = new Array();
+
+  for (var i = 0; i < rgbs.length; i++) {
+    var rgb = rgbs[i];
+    hexes.push(rgbToHex(rgb));
+    var div = document.createElement("div");
+    div.setAttribute("style", "height:100px;width:100px;background:rgb(" + rgb.r + "," + rgb.g + "," + rgb.b + ")");
+    body.appendChild(div);
+  }
+
+  var scaleCount = hexes.length * 3;
+  var chromaColors = chroma.scale(hexes).colors(scaleCount);
+
+  body = document.getElementById("scale");
+  for (var i = 0; i < chromaColors.length; i++) {
+    var chroma = chromaColors[i];
+    var div = document.createElement("div");
+    div.setAttribute("style", "height:100px;width:100px;background:" + chroma);
+    body.appendChild(div);
+  }
+
+  console.debug("chromaColors", chromaColors);
+  console.debug("hex", hexes);
+
+</script>
+</body>
+</html>

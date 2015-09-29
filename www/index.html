@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+  <title></title>
+
+  <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+
+  <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+  <link href="css/ionic.app.css" rel="stylesheet">
+  -->
+
+  <!-- ionic/angularjs js -->
+  <script src="lib/ionic/js/ionic.bundle.js"></script>
+
+  <!-- cordova script (this will be a 404 during development) -->
+  <script src="cordova.js"></script>
+
+  <script src="js/vendor/chroma/chroma.min.js" type="text/javascript"></script>
+  <script src="js/vendor/color-thief/color-thief.min.js" type="text/javascript"></script>
+  <script src="js/util.js" type="text/javascript"></script>
+  <!-- your app's js -->
+  <script src="js/app.js"></script>
+  <script src="js/controllers.js"></script>
+  <script src="js/services.js"></script>
+</head>
+<body ng-app="starter" class="bg">
+<!--
+  The nav bar that will be updated as we navigate between views.
+-->
+<ion-content ng-controller="homeCtrl" class="padding">
+
+  <div class="bar bar bar-header bar-balanced">
+    <h1 class="title">Leaf Scanner</h1>
+  </div>
+  <div class="content padding has-header">
+    <button ng-disabled="isScanning" class="button button-block button-positive" ng-click="getPhoto()">Take photo
+    </button>
+    <div class="card" ng-if="imageData">
+      <img ng-src="{{imageData}}" class="item item-image">
+    </div>
+    <button ng-if="imageData &amp;&amp; !isScanning" class="button button-block button-positive" ng-click="scan()">Scan
+    </button>
+    <button ng-if="imageData &amp;&amp; !isScanning" class="button button-block button-positive" ng-click="clear()">
+      Clear
+    </button>
+    <div ng-if="isScanning" class="card">
+      <div class="item item-text-wrap text-center">
+        <ion-spinner icon="spiral"></ion-spinner>
+        <p>{{scanMessages}}</p>
+      </div>
+    </div>
+    <div class="card" ng-if="deficienciesScanned.length > 0">
+      <div class="item item-divider">
+        Deficiencies
+      </div>
+      <div class="list">
+        <a ng-repeat="status in deficienciesScanned" class="item item-avatar" href="#" ng-if="status.percent &gt; 10.00"
+           ng-click="viewDef(status.deficiency)">
+          <img ng-src="{{status.deficiency.sample}}">
+
+          <h2>{{status.deficiency.deficiency}}</h2>
+          <h4>{{status.percent}}%</h4>
+
+          <p>{{status.deficiency.symptoms}}</p>
+        </a>
+      </div>
+    </div>
+
+
+  </div>
+</ion-content>
+
+<script id="deficiencyDesc.html" type="text/ng-template">
+  <ion-modal-view class="bg">
+    <ion-header-bar class="bar-balanced">
+      <h1 class="title">Deficiency detail</h1>
+    </ion-header-bar>
+    <ion-content>
+      <div class="card">
+        <div class="item item-avatar">
+          <img ng-src="{{selectedDeficiency.sample}}">
+
+          <h2>{{selectedDeficiency.deficiency}}</h2>
+        </div>
+        <div class="item item-body">
+          <p>{{selectedDeficiency.symptoms}}</p>
+
+          <ul class="list" ng-if="selectedDeficiency.causes">
+            <list class="item item-divider">
+              Causes
+            </list>
+            <li ng-repeat="causes in selectedDeficiency.causes" class="item">{{causes}}</li>
+          </ul>
+        </div>
+
+      </div>
+
+    </ion-content>
+    <ion-footer-bar class="bar-balanced">
+      <button class="button button-positive" ng-click="defModal.hide()">Close</button>
+    </ion-footer-bar>
+  </ion-modal-view>
+</script>
+
+</body>
+</html>

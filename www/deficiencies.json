@@ -1,0 +1,50 @@
+[
+  {
+    "deficiency": "Nitrogen",
+    "symptoms": "Leaves turn a very light color and start to turn yellow starting at the base of the plant first. Plants growth slows dramatically.",
+    "causes": [
+      "Prone to drought stress",
+      "Lack of fruit set",
+      "Shoot development",
+      "Poor drainage"
+    ],
+    "colors": "deficiencies/nitrogen/colors.json",
+    "sample": "deficiencies/nitrogen/sample.png"
+  },
+  {
+    "deficiency": "Potassium",
+    "symptoms": "Leaves turn brown with dark splotches then yellow and they curl up.",
+    "causes": [
+      "Cause nitrogen deficiency in plants"
+    ],
+    "colors": "deficiencies/potassium/colors.json",
+    "sample": "deficiencies/potassium/sample.png"
+  },
+  {
+    "deficiency": "Sulfur",
+    "symptoms": "Purpling of the veins.",
+    "causes": [
+      "Premature aging"
+    ],
+    "colors": "deficiencies/sulfur/colors.json",
+    "sample": "deficiencies/sulfur/sample.png"
+  },
+  {
+    "deficiency": "Magnesium",
+    "symptoms": "Yellowing only in the interveinal areas.",
+    "causes": [
+      "Chlorosis"
+    ],
+    "colors": "deficiencies/magnesium/colors.json",
+    "sample": "deficiencies/magnesium/sample.png"
+  },
+  {
+    "deficiency": "Phosphorus",
+    "symptoms": "Plants growth slow down;Old leaves turn dark green or reddish – purple; leaf tips look burnt",
+    "causes": [
+      "Visual deficiency of nutrients like zinc, iron and manganese."
+    ],
+    "colors": "deficiencies/phosphorus/colors.json",
+    "sample": "deficiencies/phosphorus/sample.png"
+  }
+]
