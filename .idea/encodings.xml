@@ -5,6 +5,7 @@
     <file url="file://$PROJECT_DIR$/www/deficiencies.json" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/www/deficiencies/nitrogen/colors.json" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/www/deficiencies/potassium/colors.json" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/www/js/controllers.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/www/js/services.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/www/js/util.js" charset="UTF-8" />
   </component>

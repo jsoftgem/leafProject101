@@ -108,7 +108,7 @@ angular.module('starter.services', [])
 
         return q.promise;
       },
-      getStatus: function (sourceChroma, defChroma, def) {
+      getStatus: function (sourceChroma, defChroma, def, message) {
         var q = $q.defer();
 
         timeout(function () {
@@ -124,13 +124,14 @@ angular.module('starter.services', [])
             sourceIterator.next(function (sChroma, index, proceed) {
               var defIterator = new FluidIterator(defChroma);
               console.debug("fluid-iterator.sourceIterator.sChroma", sChroma);
-              defIterator.next(function (dChroma, dIndex, dproceed) {
+              defIterator.next(function (dChroma, dIndex, dproceed, end) {
                 console.debug("fluid-iterator.sourceIterator.dChroma", dChroma);
-                t(function () {
+                timeout(function () {
                   if (hexEquals(sChroma, dChroma)) {
                     status.matchedColor++;
                     status.percent = (status.matchedColor * 100) / defChroma.length;
                     status.percent = Math.floor(status.percent);
+                    end();
                   } else {
                     dproceed();
                   }
@@ -161,9 +162,9 @@ angular.module('starter.services', [])
   }])
   .factory("FluidIterator", ["$timeout", "$q", function (t, $q) {
 
-    var fluidIterator = function (array) {
-
-      var array = array;
+    var fluidIterator = function (values) {
+      var q = $q.defer();
+      var array = values;
       var length = array.length;
       var index = 0;
 
@@ -185,26 +186,17 @@ angular.module('starter.services', [])
               return traverse(nextCallback);
             } else {
               index--;
+              q.resolve({index: index, data: array[index]});
             }
-          },
-          function () {
-            index--;
-            if (hasPrevious()) {
-              return traverse(nextCallback);
-            } else {
-              index++;
-            }
-          });
-      }
-
-
-      function next(nextCallback) {
-        var q = $q.defer();
-        try {
-          t(function () {
-            traverse(nextCallback);
+          }, function () {
             q.resolve({index: index, data: array[index]});
           });
+
+      }
+
+      function next(nextCallback) {
+        try {
+          traverse(nextCallback);
         } catch (err) {
           q.reject(err);
         }
@@ -213,7 +205,7 @@ angular.module('starter.services', [])
 
 
       return {
-        next: next, hasPrevious: hasPrevious, hasNext: hasNext, array: array, length: length
+        next: next, hasNext: hasNext, array: array, length: length
       };
     };
 

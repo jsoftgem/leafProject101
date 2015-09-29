@@ -3,7 +3,6 @@ angular.module('starter.controllers', [])
     scope.isScanning = false;
     scope.scanMessages = undefined;
     scope.deficienciesScanned = [];
-    scope.imageData = "leaf-veins.jpg";
 
     ionicModal.fromTemplateUrl("deficiencyDesc.html", {
       scope: scope,
@@ -20,6 +19,19 @@ angular.module('starter.controllers', [])
       }, function (err) {
         console.error("camera", err);
       });
+    };
+
+    scope.selectFile = function ($file) {
+      console.debug("selectFile", $file);
+
+      FileAPI.readAsDataURL($file, function (event) {
+        var dataURL = event.result;
+        console.debug("dataURL", dataURL);
+        timeout(function () {
+          scope.imageData = dataURL;
+        });
+      });
+
     };
 
     scope.scan = function () {
@@ -51,15 +63,19 @@ angular.module('starter.controllers', [])
                   scope.scanMessages = "Checking status...";
                   console.debug("defChroma", defChroma);
                   var chromaStatus = deficiency.getStatus(chromaData, defChroma, def);
+                  scope.scanMessages = "Checking for deficiencies...";
                   chromaStatus.then(function (status) {
-                    console.debug("chromaStatus",chromaStatus);
+                    console.debug("chromaStatus", chromaStatus);
                     scope.deficienciesScanned.push(status);
-                    proceed();
+                    if ($index === (deficiencyIterator.length - 1)) {
+                      scope.isScanning = false;
+                    }
                   });
                 });
-              })
+              });
+              proceed();
             }).then(function () {
-              scope.isScanning = false;
+
             });
           });
         });
