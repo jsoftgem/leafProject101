@@ -108,6 +108,17 @@ angular.module('starter.services', [])
 
         return q.promise;
       },
+      checkForDeficiency: function (imageHex, defChroma) {
+
+        var chromaIterator = new FluidIterator(defChroma);
+
+        return chromaIterator.next(function (value, index, proceed, stop) {
+          if (hexEquals(imageHex, value)) {
+            stop(true);
+          }
+          proceed();
+        });
+      },
       getStatus: function (sourceChroma, defChroma, def, message) {
         var q = $q.defer();
 
@@ -163,6 +174,7 @@ angular.module('starter.services', [])
   .factory("FluidIterator", ["$timeout", "$q", function (t, $q) {
 
     var fluidIterator = function (values) {
+      var endOnly = false;
       var q = $q.defer();
       var array = values;
       var length = array.length;
@@ -172,24 +184,29 @@ angular.module('starter.services', [])
         return index < length;
       }
 
-      function hasPrevious() {
-        return index > -1;
-      }
-
-
       function traverse(nextCallback) {
-        var value = array[index];
+        var value = undefined;
+        if (index < array.length) {
+          value = array[index];
+        } else {
+          index--;
+        }
+
         nextCallback(value, index,
           function () {
             index++;
             if (hasNext()) {
               return traverse(nextCallback);
             } else {
-              index--;
-              q.resolve({index: index, data: array[index]});
+              if (!endOnly) {
+                index--;
+                q.resolve({index: index, data: array[index]});
+              } else {
+                return traverse(nextCallback);
+              }
             }
-          }, function () {
-            q.resolve({index: index, data: array[index]});
+          }, function (data) {
+            q.resolve({index: index, data: data ? data : array[index]});
           });
 
       }
@@ -203,11 +220,78 @@ angular.module('starter.services', [])
         return q.promise;
       }
 
+      function setEndCallbackOnly(end) {
+        endOnly = end;
+      }
 
       return {
-        next: next, hasNext: hasNext, array: array, length: length
+        next: next, length: length, setEndCallbackOnly: setEndCallbackOnly
       };
     };
 
     return fluidIterator;
+  }]).factory("FluidAsyncIterator", ["$timeout", "$q", "$http", function (t, $q, h) {
+
+    var fluidAsyncIterator = function (url, method) {
+      var endOnly = false;
+      var q = $q.defer();
+      var method = method ? method : "GET";
+      var url = url;
+      var array = undefined;
+      var length = array.length;
+      var index = 0;
+
+      function hasNext() {
+        return index < length;
+      }
+
+      function traverse(nextCallback) {
+        var value = undefined;
+        if (index < array.length) {
+          value = array[index];
+        } else {
+          index--;
+        }
+
+        nextCallback(value, index,
+          function () {
+            index++;
+            if (hasNext()) {
+              return traverse(nextCallback);
+            } else {
+              if (!endOnly) {
+                index--;
+                q.resolve({index: index, data: array[index]});
+              } else {
+                return traverse(nextCallback);
+              }
+            }
+          }, function (data) {
+            q.resolve({index: index, data: data ? data : array[index]});
+          });
+
+      }
+
+      function next(nextCallback) {
+        try {
+          traverse(nextCallback);
+        } catch (err) {
+          q.reject(err);
+        }
+        return q.promise;
+      }
+
+      function setEndCallbackOnly(end) {
+        endOnly = end;
+      }
+
+      return {
+        next: next, length: length, setEndCallbackOnly: setEndCallbackOnly
+      };
+
+    };
+
+    return fluidAsyncIterator;
   }]);
+
+

@@ -41,8 +41,7 @@
     <button ng-disabled="isScanning" class="button button-block button-positive" ng-click="getPhoto()">Take photo
     </button>
     <button ng-disabled="isScanning" class="button button-block button-royal" ngf-select="selectFile($file)"
-            ngf-pattern="'image/*'" ngf-no-object-url="true"
-            accept="image/*" ngf-max-size="20MB">Browse
+            ngf-pattern="&apos;image/*&apos;" ngf-no-object-url="true" accept="image/*" ngf-max-size="20MB">Browse
     </button>
     <div class="card" ng-if="imageData">
       <img ng-src="{{imageData}}" class="item item-image">
@@ -58,24 +57,19 @@
         <p>{{scanMessages}}</p>
       </div>
     </div>
-    <div class="card" ng-if="deficienciesScanned.length > 0">
+    <div class="card" ng-if="deficienciesScanned.length &gt; 0">
       <div class="item item-divider">
         Deficiencies
       </div>
       <div class="list">
-        <a ng-repeat="status in deficienciesScanned" class="item item-avatar" href="#" ng-if="status.percent &gt; 10.00"
+        <a ng-repeat="status in deficienciesScanned" class="item item-avatar" href="#"
            ng-click="viewDef(status.deficiency)">
           <img ng-src="{{status.deficiency.sample}}">
-
           <h2>{{status.deficiency.deficiency}}</h2>
-          <h4>{{status.percent}}%</h4>
-
           <p>{{status.deficiency.symptoms}}</p>
         </a>
       </div>
     </div>
-
-
   </div>
 </ion-content>
 

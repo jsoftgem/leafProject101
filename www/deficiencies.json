@@ -46,5 +46,14 @@
     ],
     "colors": "deficiencies/phosphorus/colors.json",
     "sample": "deficiencies/phosphorus/sample.png"
+  },
+  {
+    "deficiency": "Calcium",
+    "symptoms": "New leaves are irregularly shaped or distorted;Brown color of growing leaves and roots",
+    "causes": [
+      "High calcium will cause precipitation of many micro nutrients as a result they remain unavailable to plant."
+    ],
+    "colors": "deficiencies/calcium/colors.json",
+    "sample": "deficiencies/calcium/sample.png"
   }
 ]

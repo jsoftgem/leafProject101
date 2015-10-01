@@ -28,12 +28,6 @@ var RGB = function (r, g, b) {
     var green = this.g === rgb.g || (this.g > rgb.g && (this.g - rgb.g) <= rg) || (rgb.g > this.g && (rgb.g - this.g) <= rg);
 
     var blue = this.b === rgb.b || (this.b > rgb.b && (this.b - rgb.b) <= rg) || (rgb.b > this.b && (rgb.b - this.b) <= rg);
-
-
-    console.debug("range-equals.red", red);
-    console.debug("range-equals.green", green);
-    console.debug("range-equals.blue", blue);
-
     return red && green && blue;
   };
 
@@ -70,7 +64,7 @@ function hexToRgb(hex) {
 function hexEquals(hex1, hex2) {
   var rgb1 = hexToRgb(hex1);
   var rgb2 = hexToRgb(hex2);
-  return rgb1.rangeEquals(rgb2,10);
+  return rgb1.rangeEquals(rgb2,5);
 }
 
 

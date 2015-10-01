@@ -3,7 +3,7 @@ angular.module('starter.controllers', [])
     scope.isScanning = false;
     scope.scanMessages = undefined;
     scope.deficienciesScanned = [];
-
+    scope.imageData = "leaf-veins.jpg";
     ionicModal.fromTemplateUrl("deficiencyDesc.html", {
       scope: scope,
       animation: 'slide-in-up'
@@ -46,37 +46,52 @@ angular.module('starter.controllers', [])
       palette.then(function (dataPalette) {
 
         var chroma = camera.getChroma(dataPalette);
-
         chroma.then(function (chromaData) {
-          scope.scanMessages = "Scanning for deficiencies...";
-          var deficiency = new Deficiency();
-          deficiency.getDeficiencies().then(function (deficiencies) {
-            console.debug("deficiencies", deficiencies);
-            var deficiencyIterator = new FluidIterator(deficiencies);
-            deficiencyIterator.next(function (def, $index, proceed) {
-              console.debug("def", def);
-              var palette = deficiency.getPalette(def);
-              palette.then(function (defPalette) {
-                console.debug("def-palette", defPalette);
-                var deficiencyChroma = camera.getChroma(defPalette);
-                deficiencyChroma.then(function (defChroma) {
-                  scope.scanMessages = "Checking status...";
-                  console.debug("defChroma", defChroma);
-                  var chromaStatus = deficiency.getStatus(chromaData, defChroma, def);
-                  scope.scanMessages = "Checking for deficiencies...";
-                  chromaStatus.then(function (status) {
-                    console.debug("chromaStatus", chromaStatus);
-                    scope.deficienciesScanned.push(status);
-                    if ($index === (deficiencyIterator.length - 1)) {
-                      scope.isScanning = false;
-                    }
+          scope.scanMessages = "Scanning for deficiencies 0/" + chromaData.length;
+          var dataChromaIterator = new FluidIterator(chromaData);
+          dataChromaIterator.next(function (mainValue, index, mainProceed, endMain) {
+            if (mainValue) {
+              scope.scanMessages = "Scanning for deficiencies " + Math.round((((index + 1) * 100) / dataChromaIterator.length))+"%";
+              var deficiency = new Deficiency();
+              deficiency.getDeficiencies().then(function (deficiencies) {
+                var deficiencyIterator = new FluidIterator(deficiencies);
+                deficiencyIterator.next(function (def, defIndex, defProceed) {
+                  console.debug("deficiency", def);
+                  var defPalette = deficiency.getPalette(def);
+                  defPalette.then(function (defPalettes) {
+                    deficiency.checkForDeficiency(mainValue, defPalettes)
+                      .then(function (hasMatched) {
+                        if (hasMatched.data === true) {
+                          if (scope.matches === undefined) {
+                            scope.matches = [];
+                          }
+                          if (scope.matches[def.deficiency] === undefined) {
+                            scope.matches[def.deficiency] = {};
+                            scope.matches[def.deficiency].matched = 1;
+                            scope.deficienciesScanned.push({
+                              deficiency: def
+                            });
+                          } else {
+                            scope.matches[def.deficiency].matched = scope.matches[def.deficiency].matched + 1;
+                          }
+
+                          scope.matches[def.deficiency].percent = Math.round((scope.matches[def.deficiency].matched * 100) / defPalettes.length);
+
+                          console.debug("matches", scope.matches);
+                        }
+
+                      });
                   });
+                  defProceed();
+                }).then(function () {
+                  mainProceed();
                 });
               });
-              proceed();
-            }).then(function () {
-
-            });
+            } else {
+              timeout(mainProceed, 10000);
+            }
+          }).then(function () {
+            scope.isScanning = false;
           });
         });
       });
