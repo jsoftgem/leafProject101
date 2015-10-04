@@ -64,7 +64,7 @@ function hexToRgb(hex) {
 function hexEquals(hex1, hex2) {
   var rgb1 = hexToRgb(hex1);
   var rgb2 = hexToRgb(hex2);
-  return rgb1.rangeEquals(rgb2,5);
+  return rgb1.rangeEquals(rgb2,10);
 }
 
 

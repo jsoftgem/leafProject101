@@ -40,8 +40,7 @@
   <div class="content padding has-header">
     <button ng-disabled="isScanning" class="button button-block button-positive" ng-click="getPhoto()">Take photo
     </button>
-    <button ng-disabled="isScanning" class="button button-block button-royal" ngf-select="selectFile($file)"
-            ngf-pattern="&apos;image/*&apos;" ngf-no-object-url="true" accept="image/*" ngf-max-size="20MB">Browse
+    <button ng-disabled="isScanning" class="button button-block button-royal" ngf-select="selectFile($file)" ngf-pattern="&apos;image/*&apos;" ngf-no-object-url="true" accept="image/*" ngf-max-size="20MB">Browse
     </button>
     <div class="card" ng-if="imageData">
       <img ng-src="{{imageData}}" class="item item-image">
@@ -62,10 +61,9 @@
         Deficiencies
       </div>
       <div class="list">
-        <a ng-repeat="status in deficienciesScanned" class="item item-avatar" href="#"
-           ng-click="viewDef(status.deficiency)">
+        <a ng-repeat="status in deficienciesScanned" class="item item-avatar" href="#" ng-click="viewDef(status.deficiency)">
           <img ng-src="{{status.deficiency.sample}}">
-          <h2>{{status.deficiency.deficiency}}</h2>
+          <h2>{{status.deficiency.deficiency}} {{matches[status.deficiency.deficiency].percent+&apos;%&apos;}}</h2>
           <p>{{status.deficiency.symptoms}}</p>
         </a>
       </div>

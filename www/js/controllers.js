@@ -35,6 +35,7 @@ angular.module('starter.controllers', [])
     };
 
     scope.scan = function () {
+      scope.matches = [];
       scope.isScanning = true;
       scope.deficienciesScanned = [];
       scope.scanMessages = "Getting image palette...";
@@ -51,7 +52,7 @@ angular.module('starter.controllers', [])
           var dataChromaIterator = new FluidIterator(chromaData);
           dataChromaIterator.next(function (mainValue, index, mainProceed, endMain) {
             if (mainValue) {
-              scope.scanMessages = "Scanning for deficiencies " + Math.round((((index + 1) * 100) / dataChromaIterator.length))+"%";
+              scope.scanMessages = "Scanning for deficiencies " + Math.round((((index + 1) * 100) / dataChromaIterator.length)) + "%";
               var deficiency = new Deficiency();
               deficiency.getDeficiencies().then(function (deficiencies) {
                 var deficiencyIterator = new FluidIterator(deficiencies);
@@ -100,6 +101,7 @@ angular.module('starter.controllers', [])
     scope.clear = function () {
       scope.imageData = undefined;
       scope.deficienciesScanned = [];
+      scope.matches = [];
     };
 
 
