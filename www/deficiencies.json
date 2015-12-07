@@ -1,12 +1,14 @@
 [
   {
     "deficiency": "Nitrogen",
-    "symptoms": "Leaves turn a very light color and start to turn yellow starting at the base of the plant first. Plants growth slows dramatically.",
+    "symptoms": "Leaves turn a very light color and start to turn yellow starting at the base of the plant first.",
     "causes": [
       "Prone to drought stress",
       "Lack of fruit set",
       "Shoot development",
-      "Poor drainage"
+      "Poor drainage",
+      "Inadequate fertilization",
+      "Leaching from heavy rainfall and flooded or ponded soil when the temperature is warm."
     ],
     "colors": "deficiencies/nitrogen/colors.json",
     "sample": "deficiencies/nitrogen/sample.png"
@@ -15,7 +17,8 @@
     "deficiency": "Potassium",
     "symptoms": "Leaves turn brown with dark splotches then yellow and they curl up.",
     "causes": [
-      "Cause nitrogen deficiency in plants"
+      "Cause nitrogen deficiency in plants.",
+      "Plant growth, root development, and seed and fruit development are usually reduced in potassium-deficient plants."
     ],
     "colors": "deficiencies/potassium/colors.json",
     "sample": "deficiencies/potassium/sample.png"
@@ -24,7 +27,7 @@
     "deficiency": "Sulfur",
     "symptoms": "Purpling of the veins.",
     "causes": [
-      "Premature aging"
+      "With outdoor cultivation, a shortage of sulphur rarely occurs. In potting soil, a sulfur deficiency can occur when the pH is too high, or too much calcium is present."
     ],
     "colors": "deficiencies/sulfur/colors.json",
     "sample": "deficiencies/sulfur/sample.png"
@@ -33,7 +36,7 @@
     "deficiency": "Magnesium",
     "symptoms": "Yellowing only in the interveinal areas.",
     "causes": [
-      "Chlorosis"
+      "Leaves produce insufficient chlorophyll (Chlorosis)."
     ],
     "colors": "deficiencies/magnesium/colors.json",
     "sample": "deficiencies/magnesium/sample.png"
@@ -42,7 +45,8 @@
     "deficiency": "Phosphorus",
     "symptoms": "Plants growth slow down;Old leaves turn dark green or reddish – purple; leaf tips look burnt",
     "causes": [
-      "Visual deficiency of nutrients like zinc, iron and manganese."
+      "Visual deficiency of nutrients like zinc, iron and manganese.",
+      "Cold weather can cause a temporary deficiency."
     ],
     "colors": "deficiencies/phosphorus/colors.json",
     "sample": "deficiencies/phosphorus/sample.png"
@@ -51,7 +55,9 @@
     "deficiency": "Calcium",
     "symptoms": "New leaves are irregularly shaped or distorted;Brown color of growing leaves and roots",
     "causes": [
-      "High calcium will cause precipitation of many micro nutrients as a result they remain unavailable to plant."
+      "High calcium will cause precipitation of many micro nutrients as a result they remain unavailable to plant.",
+      "Acidic, sandy, or coarse soils often contain less calcium.",
+      "Uneven soil moisture and overuse of fertilizers can also cause calcium deficiency."
     ],
     "colors": "deficiencies/calcium/colors.json",
     "sample": "deficiencies/calcium/sample.png"
